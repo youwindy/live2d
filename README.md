@@ -60,12 +60,14 @@
 - **框架**: Express
 - **文件处理**: Multer（上传）+ ADM-ZIP（解压）
 - **跨域**: CORS
+- **进程管理**: PM2（可选）
 
 ## 🚀 快速开始
 
 ### 环境要求
 - Node.js >= 16.0.0
 - npm >= 7.0.0
+- PM2（可选，用于生产环境）
 
 ### 安装步骤
 
@@ -89,15 +91,68 @@ cd ..
 
 4. **启动项目**
 
+**方式一：开发模式（推荐用于开发）**
+
 使用便捷脚本（Windows）：
 ```bash
 start.bat
 ```
 
 或手动启动：
-
 ```bash
 # 终端 1 - 启动后端
+cd server
+npm start
+
+# 终端 2 - 启动前端
+npm run dev
+```
+
+**方式二：PM2 后台运行（推荐用于生产环境）**
+
+Windows 系统：
+```bash
+# 启动服务
+pm2-start.bat
+
+# 停止服务
+pm2-stop.bat
+```
+
+Linux/Mac 系统：
+```bash
+# 添加执行权限（首次运行）
+chmod +x pm2-start.sh pm2-stop.sh
+
+# 启动服务
+./pm2-start.sh
+
+# 停止服务
+./pm2-stop.sh
+```
+
+或使用 npm 命令：
+```bash
+# 启动 PM2 服务
+npm run pm2:start
+
+# 查看服务状态
+npm run pm2:status
+
+# 查看日志
+npm run pm2:logs
+
+# 重启服务
+npm run pm2:restart
+
+# 停止服务
+npm run pm2:stop
+
+# 监控面板
+npm run pm2:monit
+```
+
+5. **访问应用**
 cd server
 npm start
 
@@ -245,6 +300,58 @@ VITE_API_URL=http://localhost:3001
 ### 端口配置
 - 前端端口: `vite.config.js` 中的 `server.port`
 - 后端端口: `server/index.js` 中的 `PORT` 常量
+
+### PM2 配置
+PM2 配置文件：`ecosystem.config.js`
+
+主要配置项：
+```javascript
+{
+  name: 'live2d-server',        // 应用名称
+  script: './server/index.js',  // 启动脚本
+  instances: 1,                 // 实例数量
+  autorestart: true,            // 自动重启
+  max_memory_restart: '1G',     // 内存限制
+  env: {
+    NODE_ENV: 'production',
+    PORT: 3001
+  }
+}
+```
+
+PM2 常用命令：
+```bash
+# 启动应用
+pm2 start ecosystem.config.js
+
+# 查看状态
+pm2 status
+
+# 查看日志
+pm2 logs live2d-server
+
+# 实时监控
+pm2 monit
+
+# 重启应用
+pm2 restart live2d-server
+
+# 停止应用
+pm2 stop live2d-server
+
+# 删除应用
+pm2 delete live2d-server
+
+# 保存当前进程列表
+pm2 save
+
+# 设置开机自启
+pm2 startup
+```
+
+日志文件位置：
+- 错误日志: `./logs/server-error.log`
+- 输出日志: `./logs/server-out.log`
 
 ## 📝 模型要求
 

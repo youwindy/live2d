@@ -7,7 +7,14 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "pm2:start": "pm2 start ecosystem.config.js",
+    "pm2:stop": "pm2 stop live2d-server",
+    "pm2:restart": "pm2 restart live2d-server",
+    "pm2:delete": "pm2 delete live2d-server",
+    "pm2:logs": "pm2 logs live2d-server",
+    "pm2:monit": "pm2 monit",
+    "pm2:status": "pm2 status"
   },
   "dependencies": {
     "axios": "^1.13.5",
