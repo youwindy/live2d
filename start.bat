@@ -1,0 +1,13 @@
+@echo off
+echo Starting Live2D Editor...
+echo.
+echo Starting backend server...
+start cmd /k "cd server && npm start"
+timeout /t 2 /nobreak >nul
+echo.
+echo Starting frontend dev server...
+start cmd /k "npm run dev"
+echo.
+echo Both servers are starting...
+echo Backend: http://localhost:3001
+echo Frontend: http://localhost:5173
